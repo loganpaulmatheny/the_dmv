@@ -31,5 +31,17 @@ RSpec.describe Facility do
       @facility.register_vehicle(camaro)
       expect(camaro.plate_type).to eq(:antique)
     end 
+    it 'can change change registration dates' do 
+      camaro = Vehicle.new({vin: '1a2b3c4d5e6f', year: 1969, make: 'Chevrolet', model: 'Camaro', engine: :ice} )
+      @facility.add_service('Vehicle Registration')
+      @facility.register_vehicle(camaro)
+      expect(camaro.registration_date).to be_an_instance_of(DateTime)
+    end 
+    it 'can add collection fee to the facility' do 
+      camaro = Vehicle.new({vin: '1a2b3c4d5e6f', year: 1969, make: 'Chevrolet', model: 'Camaro', engine: :ice} )
+      @facility.add_service('Vehicle Registration')
+      @facility.register_vehicle(camaro)
+      expect(@facility.collected_fees).to eq(25)
+    end 
   end 
 end

@@ -30,4 +30,8 @@ class Vehicle
   def plate_type=(type)
     @plate_type = type
   end 
+
+  def registration_date
+    @registration_date = DateTime.now
+  end 
 end
