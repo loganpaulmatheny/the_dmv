@@ -50,4 +50,13 @@ RSpec.describe Facility do
       expect(@facility.registered_vehicles.length).to eq(1) 
     end 
   end 
+
+  describe '#administer_written_test' do 
+    it 'changes status of a registrant\'s written test' do 
+      registrant = Registrant.new('Bruce', 18, true )
+      @facility.add_service("Written Test")
+      @facility.administer_written_test(registrant)
+      expect(registrant.licence_data[:written]).to eq(true)
+    end 
+  end 
 end
