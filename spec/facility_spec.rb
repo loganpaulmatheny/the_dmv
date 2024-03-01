@@ -55,8 +55,37 @@ RSpec.describe Facility do
     it 'changes status of a registrant\'s written test' do 
       registrant = Registrant.new('Bruce', 18, true )
       @facility.add_service("Written Test")
-      @facility.administer_written_test(registrant)
+      test_administered = @facility.administer_written_test(registrant)
+      expect(test_administered).to eq(true)
       expect(registrant.licence_data[:written]).to eq(true)
     end 
+
+    it 'does not changes status of a registrant\'s written test if the registrant is not 15' do 
+      registrant = Registrant.new('Tucker', 15 )
+      @facility.add_service("Written Test")
+      test_administered = @facility.administer_written_test(registrant)
+      expect(test_administered).to eq(false)
+      expect(registrant.licence_data[:written]).to eq(false)
+    end 
+
+    it 'does not changes status of a registrant\'s written test if the registrant is not 15 or doesn\'t have a permit' do 
+      registrant = Registrant.new('Tucker', 15 )
+      @facility.add_service("Written Test")
+      registrant.earn_permit
+      test_administered = @facility.administer_written_test(registrant)
+      expect(test_administered).to eq(false)
+      expect(registrant.licence_data[:written]).to eq(false)
+    end 
   end 
-end
+
+  describe '#administer_road_test' do
+    it 'can administer a license if the registrant has passed a written test and the facility can conduct road tests' do
+      registrant = Registrant.new('Bruce', 18, true )
+      @facility.add_service("Written Test")
+      @facility.administer_written_test(registrant)
+      @facility.add_service('Road Test')
+      @facility.administer_road_test(registrant)
+      expect(registrant.licence_data[:license]).to eq(true)
+    end 
+  end 
+end 
