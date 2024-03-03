@@ -57,7 +57,7 @@ RSpec.describe Facility do
       @facility.add_service("Written Test")
       test_administered = @facility.administer_written_test(registrant)
       expect(test_administered).to eq(true)
-      expect(registrant.licence_data[:written]).to eq(true)
+      expect(registrant.license_data[:written]).to eq(true)
     end 
 
     it 'does not changes status of a registrant\'s written test if the registrant is not 15' do 
@@ -65,7 +65,7 @@ RSpec.describe Facility do
       @facility.add_service("Written Test")
       test_administered = @facility.administer_written_test(registrant)
       expect(test_administered).to eq(false)
-      expect(registrant.licence_data[:written]).to eq(false)
+      expect(registrant.license_data[:written]).to eq(false)
     end 
 
     it 'does not changes status of a registrant\'s written test if the registrant is not 15 or doesn\'t have a permit' do 
@@ -74,7 +74,7 @@ RSpec.describe Facility do
       registrant.earn_permit
       test_administered = @facility.administer_written_test(registrant)
       expect(test_administered).to eq(false)
-      expect(registrant.licence_data[:written]).to eq(false)
+      expect(registrant.license_data[:written]).to eq(false)
     end 
   end 
 
@@ -85,7 +85,21 @@ RSpec.describe Facility do
       @facility.administer_written_test(registrant)
       @facility.add_service('Road Test')
       @facility.administer_road_test(registrant)
-      expect(registrant.licence_data[:license]).to eq(true)
+      expect(registrant.license_data[:license]).to eq(true)
     end 
   end 
+
+  describe '#renew_drivers_license' do 
+    it 'can renew drivers licenses' do 
+      registrant = Registrant.new('Bruce', 18, true )
+      @facility.add_service("Written Test")
+      @facility.administer_written_test(registrant)
+      @facility.add_service('Road Test')
+      @facility.administer_road_test(registrant)
+      @facility.add_service('Renew License')
+      @facility.renew_drivers_license(registrant)
+      expect(registrant.license_data[:renewed]).to eq(true)      
+    end 
+  end 
+
 end 
