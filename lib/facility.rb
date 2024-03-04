@@ -28,6 +28,7 @@ class Facility
       end
       @registered_vehicles << vehicle
     end
+    vehicle.set_registration_date
   end
 
   def administer_written_test(registrant)

@@ -31,11 +31,11 @@ class Vehicle
     @plate_type = type
   end 
 
-  def registration_date
+  def set_registration_date
     @registration_date = DateTime.now
   end 
 
-  def engine(type)
+  def set_engine(type)
     @engine = type
   end 
 end

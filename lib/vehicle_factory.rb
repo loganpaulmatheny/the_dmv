@@ -11,7 +11,7 @@ class VehicleFactory
     @created_vehicles = registered_vehicles.map do |vehicle|
       added_vehicle = Vehicle.new(vehicle)
       if vehicle[:electric_vehicle_type]
-        added_vehicle.engine(:ev)
+        added_vehicle.set_engine(:ev)
       end
       added_vehicle
     end 
