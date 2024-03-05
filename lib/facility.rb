@@ -2,10 +2,10 @@ class Facility
   attr_reader :name, :address, :phone, :services, :collected_fees, :registered_vehicles
 
   def initialize(details)
-    @name = details[:name]
-    @address = details[:address]
+    @name = details[:name] || details[:dmv_office]
+    @address = details[:address] || details[:address_li]
     @phone = details[:phone]
-    @services = []
+    @services = details[:services_p].split(",") || []
     @collected_fees = 0
     @registered_vehicles = []
   end
@@ -15,7 +15,7 @@ class Facility
   end
 
   def register_vehicle(vehicle)
-    if @services.include?("Vehicle Registration")
+    if @services.include?("Vehicle Registration") || @services.include?("registration")
       if vehicle.antique?
         vehicle.plate_type = :antique
         @collected_fees += 25
@@ -48,7 +48,7 @@ class Facility
   end 
 
   def renew_drivers_license(registrant)
-    if @services.include?("Renew License") && registrant.license_data[:written] == true && registrant.license_data[:license] == true
+    if (@services.include?("Renew License") || @services.include?("renewals")) && registrant.license_data[:written] == true && registrant.license_data[:license] == true
       registrant.license_data[:renewed] = true
       return true
     end 
