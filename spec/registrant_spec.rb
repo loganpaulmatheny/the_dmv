@@ -29,7 +29,7 @@ RSpec.describe Registrant do
   
   describe '#permit' do 
   it "able to change the status of a registrant's permit" do 
-    @registrant_2.permit?
+    @registrant_2.earn_permit
     expect(@registrant_2.permit).to eq(true)
     end 
   end 
