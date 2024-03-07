@@ -2,12 +2,20 @@ class Facility
   attr_reader :name, :address, :phone, :services, :collected_fees, :registered_vehicles
 
   def initialize(details)
-    @name = details[:name] || details[:dmv_office]
-    @address = details[:address] || details[:address_li]
-    @phone = details[:phone]
-    @services = details[:services_p].split(",") || []
+    @name = details[:name] || details[:dmv_office] || details[:office_name]
+    @address = details[:address] || construct_address(details)
+    @phone = details[:phone] || details[:public_phone_number]
+    @services = details[:services_p] ? details[:services_p].split(",") : []
     @collected_fees = 0
     @registered_vehicles = []
+  end
+
+  def construct_address(details)
+    street_address = details[:street_address_line_1]
+    city = details[:city]
+    state = details[:state]
+    zip_code = details[:zip_code]
+    "#{street_address}, #{city}, #{state} #{zip_code}"
   end
 
   def add_service(service)
