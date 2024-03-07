@@ -11,10 +11,10 @@ class Facility
   end
 
   def construct_address(details)
-    street_address = details[:street_address_line_1]
+    street_address = details[:street_address_line_1] || details[:address1]
     city = details[:city]
     state = details[:state]
-    zip_code = details[:zip_code]
+    zip_code = details[:zip_code] || details[:zipcode]
     "#{street_address}, #{city}, #{state} #{zip_code}"
   end
 
